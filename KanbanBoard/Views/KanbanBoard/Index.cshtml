@@ -1,0 +1,31 @@
+﻿@model IEnumerable<KanbanBoardMVCApp.Models.KanbanBoard>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Kanban Board</h1>
+
+<p>Her skal jeg lave mit kanban board og de operation man kan foretage sig på det. (Singular Kanban board. Multiple not possible.)</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectName)
+            </td>
+            <td>
+                Something something.
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
