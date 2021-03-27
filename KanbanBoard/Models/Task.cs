@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KanbanBoardMVCApp.Models
 {
@@ -12,6 +13,7 @@ namespace KanbanBoardMVCApp.Models
         public string Title { get; set; }
 
         [Required]
+        [ForeignKey("fk_column_id")]
         public KanbanColumn Column { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KanbanBoardMVCApp.Models
 {
@@ -11,6 +12,7 @@ namespace KanbanBoardMVCApp.Models
         public string Headline { get; set; }
 
         [Required]
+        [ForeignKey("fk_kanban_board_id")]
         public KanbanBoard KanbanBoard { get; set; }
     }
 }

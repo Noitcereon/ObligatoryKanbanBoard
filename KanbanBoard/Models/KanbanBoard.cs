@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KanbanBoardMVCApp.Models
 {
@@ -12,6 +13,5 @@ namespace KanbanBoardMVCApp.Models
 
         [Required]
         public List<KanbanColumn> Columns { get; set; }
-
     }
 }
