@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using KanbanBoardMVCApp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace KanbanBoard.Data
+namespace KanbanBoardMVCApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -12,5 +10,9 @@ namespace KanbanBoard.Data
             : base(options)
         {
         }
+
+        public DbSet<Models.KanbanBoard> KanbanBoards { get; set; }
+        public DbSet<KanbanColumn> KanbanColumns { get; set; }
+        public DbSet<Task> Tasks { get; set; }
     }
 }

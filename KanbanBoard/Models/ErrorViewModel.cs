@@ -1,6 +1,4 @@
-using System;
-
-namespace KanbanBoard.Models
+namespace KanbanBoardMVCApp.Models
 {
     public class ErrorViewModel
     {
