@@ -43,6 +43,20 @@ namespace KanbanBoard
                 config.ExpireTimeSpan = TimeSpan.FromHours(1);
             });
             services.AddCookiePolicy(config => config.MinimumSameSitePolicy = SameSiteMode.Lax);
+
+            services.AddAuthentication().AddFacebook(fbOptions =>
+            {
+                fbOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                fbOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+            services.AddAuthentication().AddGoogle(googleOptions =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        Configuration.GetSection("Authentication:Google");
+
+                    googleOptions.ClientId = googleAuthNSection["ClientId"];
+                    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
