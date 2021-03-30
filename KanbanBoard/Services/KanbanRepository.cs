@@ -37,7 +37,7 @@ namespace KanbanBoardMVCApp.Services
         /// <returns></returns>
         public List<KanbanItem> FetchItemsByColumn(Column column)
         {
-            return _context.Tasks.Where(t => t.Id == (int)column).ToList();
+            return _context.Tasks.Where(t => t.Column.Id == (int)column).ToList();
         }
 
         public List<KanbanColumn> FetchColumns(int kanbanBoardId)

@@ -4,28 +4,62 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Kanban Board</h1>
-<p>Her skal jeg lave mit kanban board og de operation man kan foretage sig på det. (Singular Kanban board. Multiple not possible.)</p>
+<h1>@Model.KanbanBoard</h1>
 
-
-<table class="table table-dark">
-    <thead>
-        @foreach (var column in Model.KanbanColumns)
+<section id="kanbanBoard" class="row">
+    <section class="col-md-3">
+        <h2>@Model.KanbanColumns.Find(x => x.Headline == "To Do")</h2>
+        @foreach (var item in Model.ToDoItems)
         {
-            <tr>
-                @column.Headline
-            </tr>
+            <div class="card">
+                <div class="card-body">
+                    <h5>@item</h5>
+                </div>
+            </div>
         }
-    </thead>
-    <tbody>
-     No work 
-    @foreach (var toDo in Model.ToDoItems)
-    {
-        <tr>
-            <td>
-                @toDo.Title
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+    </section>
+    <section class="col-md-3">
+        <h2>@Model.KanbanColumns.Find(x => x.Headline == "Doing")</h2>
+        @foreach (var item in Model.DoingItems)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5>@item</h5>
+                </div>
+            </div>
+        }
+    </section>
+    <section class="col-md-3">
+        <h2>@Model.KanbanColumns.Find(x => x.Headline == "Testing")</h2>
+        @foreach (var item in Model.TestingItems)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5>@item</h5>
+                </div>
+            </div>
+        }
+    </section>
+    <section class="col-md-3">
+        <h2>@Model.KanbanColumns.Find(x => x.Headline == "Done")</h2>
+        @foreach (var item in Model.DoneItems)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5>@item</h5>
+                </div>
+            </div>
+        }
+    </section>
+</section>
+
+
+@section Styles {
+    <style>
+        #kanbanBoard {
+            background-color: rgba(0,0,0,0.3);
+            padding-bottom: 1rem;
+        }
+    </style>
+}
+
