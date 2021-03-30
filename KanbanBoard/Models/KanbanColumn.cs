@@ -25,5 +25,10 @@ namespace KanbanBoardMVCApp.Models
             Headline = headline;
             KanbanBoard = kanbanBoard;
         }
+
+        public override string ToString()
+        {
+            return Headline;
+        }
     }
 }

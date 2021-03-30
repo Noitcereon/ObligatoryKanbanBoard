@@ -10,5 +10,10 @@ namespace KanbanBoardMVCApp.Models
         public int Id { get; set; }
 
         public string ProjectName { get; set; }
+
+        public override string ToString()
+        {
+            return ProjectName;
+        }
     }
 }

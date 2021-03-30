@@ -15,5 +15,11 @@ namespace KanbanBoardMVCApp.Models
         [Required]
         [ForeignKey("fk_column_id")]
         public KanbanColumn Column { get; set; }
+
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }
