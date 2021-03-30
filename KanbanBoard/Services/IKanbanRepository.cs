@@ -6,7 +6,7 @@ namespace KanbanBoardMVCApp.Services
     public interface IKanbanRepository
     {
         KanbanBoard FetchKanbanBoard();
-        List<KanbanItem> FetchTaskItems(int columnId);
+        List<KanbanItem> FetchItemsByColumn(KanbanRepository.Column columnId);
         List<KanbanColumn> FetchColumns(int kanbanBoardId);
     }
 }

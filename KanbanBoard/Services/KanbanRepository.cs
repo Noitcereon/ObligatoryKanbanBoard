@@ -11,6 +11,11 @@ namespace KanbanBoardMVCApp.Services
     
     public class KanbanRepository : IKanbanRepository
     {
+        public enum Column
+        {
+            ToDo = 1, Doing, Testing, Done
+        }
+
         private readonly ApplicationDbContext _context;
 
         public KanbanRepository(ApplicationDbContext context)
@@ -18,19 +23,21 @@ namespace KanbanBoardMVCApp.Services
             _context = context;
         }
 
-        public enum Column
-        {
-            ToDo = 1, Doing, Testing, Done
-        }
-
         public KanbanBoard FetchKanbanBoard()
         {
             return _context.KanbanBoards.First();
         }
-       
-        public List<KanbanItem> FetchItemsByColumn(int columnId)
+
+
+        /// <summary>
+        /// Fetches the items from 1 column (To do or Doing or...)
+        /// If multiple kanbanboards need to be added, this method needs to change.
+        /// </summary>
+        /// <param name="column">The column to retrieve items from</param>
+        /// <returns></returns>
+        public List<KanbanItem> FetchItemsByColumn(Column column)
         {
-            return _context.Tasks.Where(t => t.Id == columnId).ToList();
+            return _context.Tasks.Where(t => t.Id == (int)column).ToList();
         }
 
         public List<KanbanColumn> FetchColumns(int kanbanBoardId)

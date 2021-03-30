@@ -12,6 +12,7 @@ using KanbanBoardMVCApp.Services;
 using KanbanBoardMVCApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.SqlClient.DataClassification;
+using static KanbanBoardMVCApp.Services.KanbanRepository;
 
 namespace KanbanBoardMVCApp.Controllers
 {
@@ -28,12 +29,24 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         // GET: KanbanBoard
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             KanbanBoard kanbanBoard = _repos.FetchKanbanBoard();
             List<KanbanColumn> columns = _repos.FetchColumns(kanbanBoard.Id);
-            List<KanbanItem> items = _repos.FetchTaskItems()
-            return View(new KanbanBoardVM());
+            List<KanbanItem> todoItems = _repos.FetchItemsByColumn(Column.ToDo);
+            List<KanbanItem> doingItems = _repos.FetchItemsByColumn(Column.Doing);
+            List<KanbanItem> testingItems = _repos.FetchItemsByColumn(Column.Testing);
+            List<KanbanItem> doneItems = _repos.FetchItemsByColumn(Column.Done);
+            KanbanBoardVM viewModel = new KanbanBoardVM()
+            {
+                KanbanBoard = kanbanBoard,
+                KanbanColumns = columns,
+                ToDoItems = todoItems,
+                DoingItems = doingItems,
+                TestingItems = testingItems,
+                DoneItems = doneItems
+            };
+            return View(viewModel);
         }
 
      

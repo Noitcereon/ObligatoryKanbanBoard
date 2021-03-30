@@ -8,15 +8,12 @@ namespace KanbanBoardMVCApp.ViewModels
 {
     public class KanbanBoardVM
     {
-        public List<KanbanItem> TaskItems { get; set; } = new List<KanbanItem>();
-
-        public static KanbanBoard KanbanBoard { get; set; } = new KanbanBoard();
-        public List<KanbanColumn> KanbanColumns { get; set; } = new List<KanbanColumn>()
-        {
-            new KanbanColumn("To Do", KanbanBoard),
-            new KanbanColumn("Doing", KanbanBoard),
-            new KanbanColumn("Testing", KanbanBoard),
-            new KanbanColumn("Done", KanbanBoard)
-        };
+        public KanbanBoard KanbanBoard { get; set; }
+        public List<KanbanColumn> KanbanColumns { get; set; }
+        public List<KanbanItem> ToDoItems { get; set; }
+        public List<KanbanItem> DoingItems { get; set; }
+        public List<KanbanItem> TestingItems { get; set; }
+        public List<KanbanItem> DoneItems { get; set; }
+     
     }
 }

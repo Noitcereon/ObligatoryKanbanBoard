@@ -8,16 +8,7 @@
 <p>Her skal jeg lave mit kanban board og de operation man kan foretage sig på det. (Singular Kanban board. Multiple not possible.)</p>
 
 
-<table class="table table-bordered">
-    <thead>
-    <tr>To Do</tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    </thead>
-</table>
-
-<!--<table class="table table-dark">
+<table class="table table-dark">
     <thead>
         @foreach (var column in Model.KanbanColumns)
         {
@@ -26,15 +17,15 @@
             </tr>
         }
     </thead>
-    <tbody>-->
-    @* No work *@
-    <!--@foreach (var taskItem in Model.TaskItems)
+    <tbody>
+     No work 
+    @foreach (var toDo in Model.ToDoItems)
     {
         <tr>
             <td>
-                @taskItem
+                @toDo.Title
             </td>
         </tr>
     }
     </tbody>
-</table>-->
+</table>
