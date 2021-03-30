@@ -23,9 +23,9 @@ namespace KanbanBoardMVCApp.Services
             _context = context;
         }
 
-        public async Task<KanbanBoard> FetchKanbanBoardAsync()
+        public async Task<KanbanBoard> FetchKanbanBoardAsync(int kanbanBoardId = 1)
         {
-            return await _context.KanbanBoards.FirstAsync(x => x.Id == 1);
+            return await _context.KanbanBoards.FirstAsync(x => x.Id == kanbanBoardId);
         }
 
         /// <summary>

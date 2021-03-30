@@ -29,15 +29,15 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         // GET: KanbanBoard
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            KanbanBoard kanbanBoard = _repos.FetchKanbanBoard();
-            List<KanbanColumn> columns = _repos.FetchColumns(kanbanBoard.Id);
-            List<KanbanItem> todoItems = _repos.FetchItemsByColumn(Column.ToDo);
-            List<KanbanItem> doingItems = _repos.FetchItemsByColumn(Column.Doing);
-            List<KanbanItem> testingItems = _repos.FetchItemsByColumn(Column.Testing);
-            List<KanbanItem> doneItems = _repos.FetchItemsByColumn(Column.Done);
-            KanbanBoardVM viewModel = new KanbanBoardVM()
+            KanbanBoard kanbanBoard = await _repos.FetchKanbanBoardAsync(1);
+            List<KanbanColumn> columns = await _repos.FetchColumnsAsync(kanbanBoard.Id);
+            List<KanbanItem> todoItems = await _repos.FetchItemsByColumnAsync(Column.ToDo);
+            List<KanbanItem> doingItems = await _repos.FetchItemsByColumnAsync(Column.Doing);
+            List<KanbanItem> testingItems = await _repos.FetchItemsByColumnAsync(Column.Testing);
+            List<KanbanItem> doneItems = await _repos.FetchItemsByColumnAsync(Column.Done);
+            KanbanBoardVM viewModel = new KanbanBoardVM
             {
                 KanbanBoard = kanbanBoard,
                 KanbanColumns = columns,
@@ -49,6 +49,11 @@ namespace KanbanBoardMVCApp.Controllers
             return View(viewModel);
         }
 
-     
+
+        public IActionResult MoveItem(int itemId)
+        {
+            _repos.MoveItemAsync(itemId, Column.Done);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
