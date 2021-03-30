@@ -13,6 +13,7 @@ namespace KanbanBoardMVCApp.Data
 
         public DbSet<KanbanBoard> KanbanBoards { get; set; }
         public DbSet<KanbanColumn> KanbanColumns { get; set; }
-        public DbSet<KanbanItem> Tasks { get; set; }
+        // Note: Tasks was renamed to KanbanItems (might affect database when updating it)
+        public DbSet<KanbanItem> KanbanItems { get; set; }
     }
 }

@@ -23,11 +23,10 @@ namespace KanbanBoardMVCApp.Services
             _context = context;
         }
 
-        public KanbanBoard FetchKanbanBoard()
+        public async Task<KanbanBoard> FetchKanbanBoardAsync()
         {
-            return _context.KanbanBoards.First();
+            return await _context.KanbanBoards.FirstAsync(x => x.Id == 1);
         }
-
 
         /// <summary>
         /// Fetches the items from 1 column (To do or Doing or...)
@@ -35,14 +34,28 @@ namespace KanbanBoardMVCApp.Services
         /// </summary>
         /// <param name="column">The column to retrieve items from</param>
         /// <returns></returns>
-        public List<KanbanItem> FetchItemsByColumn(Column column)
+        public async Task<List<KanbanItem>> FetchItemsByColumnAsync(Column column)
         {
-            return _context.Tasks.Where(t => t.Column.Id == (int)column).ToList();
+            return await _context.KanbanItems.Where(t => t.Column.Id == (int)column).ToListAsync();
         }
 
-        public List<KanbanColumn> FetchColumns(int kanbanBoardId)
+        public async Task<List<KanbanColumn>> FetchColumnsAsync(int kanbanBoardId)
         {
-            return _context.KanbanColumns.Where(x => x.KanbanBoard.Id == kanbanBoardId).ToList();
+            return await _context.KanbanColumns.Where(x => x.KanbanBoard.Id == kanbanBoardId).ToListAsync();
+        }
+
+        public int AddItem(KanbanItem item)
+        {
+            _context.KanbanItems.Add(item);
+            return _context.SaveChanges();
+        }
+
+        public async Task MoveItemAsync(int itemId, Column newColumn)
+        {
+            var itemToUpdate = await _context.KanbanItems.FirstOrDefaultAsync(ki => ki.Id == itemId);
+            if (itemToUpdate != null)
+                itemToUpdate.Column = await _context.KanbanColumns.FirstAsync(kc => kc.Id == (int) newColumn);
+            await _context.SaveChangesAsync();
         }
     }
 }
