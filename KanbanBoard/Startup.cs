@@ -1,5 +1,6 @@
 using System;
 using KanbanBoardMVCApp.Data;
+using KanbanBoardMVCApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,10 @@ namespace KanbanBoardMVCApp
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            #region Custom Services
+            services.AddScoped<IKanbanRepository, KanbanRepository>();
+            #endregion
 
             services.ConfigureApplicationCookie(config =>
             {

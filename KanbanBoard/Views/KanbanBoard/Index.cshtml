@@ -1,31 +1,40 @@
-﻿@model IEnumerable<KanbanBoardMVCApp.Models.KanbanBoard>
+﻿@model KanbanBoardMVCApp.ViewModels.KanbanBoardVM
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Kanban Board</h1>
-
 <p>Her skal jeg lave mit kanban board og de operation man kan foretage sig på det. (Singular Kanban board. Multiple not possible.)</p>
-<table class="table">
+
+
+<table class="table table-bordered">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectName)
-            </th>
-            <th></th>
-        </tr>
+    <tr>To Do</tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
+</table>
+
+<!--<table class="table table-dark">
+    <thead>
+        @foreach (var column in Model.KanbanColumns)
+        {
+            <tr>
+                @column.Headline
+            </tr>
+        }
+    </thead>
+    <tbody>-->
+    @* No work *@
+    <!--@foreach (var taskItem in Model.TaskItems)
+    {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProjectName)
-            </td>
-            <td>
-                Something something.
+                @taskItem
             </td>
         </tr>
-}
+    }
     </tbody>
-</table>
+</table>-->

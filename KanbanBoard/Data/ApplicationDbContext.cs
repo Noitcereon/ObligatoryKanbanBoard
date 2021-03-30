@@ -11,8 +11,8 @@ namespace KanbanBoardMVCApp.Data
         {
         }
 
-        public DbSet<Models.KanbanBoard> KanbanBoards { get; set; }
+        public DbSet<KanbanBoard> KanbanBoards { get; set; }
         public DbSet<KanbanColumn> KanbanColumns { get; set; }
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<KanbanItem> Tasks { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KanbanBoardMVCApp.Models
 {
-    public class Task
+    public class KanbanItem
     {
         [Required]
         public int Id { get; set; }

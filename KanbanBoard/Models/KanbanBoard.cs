@@ -10,8 +10,5 @@ namespace KanbanBoardMVCApp.Models
         public int Id { get; set; }
 
         public string ProjectName { get; set; }
-
-        [Required]
-        public List<KanbanColumn> Columns { get; set; }
     }
 }
