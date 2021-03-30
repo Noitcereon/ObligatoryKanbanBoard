@@ -50,9 +50,9 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
 
-        public IActionResult MoveItem(int itemId)
+        public async Task<IActionResult> MoveItem(int itemId)
         {
-            _repos.MoveItemAsync(itemId, Column.Done);
+            await _repos.MoveItemAsync(itemId, Column.Done);
             return RedirectToAction(nameof(Index));
         }
     }
