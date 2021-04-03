@@ -29,6 +29,7 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         // GET: KanbanBoard
+        [AllowAnonymous] // Will become Authorize with "observer" role later.
         public async Task<IActionResult> Index()
         {
             KanbanBoard kanbanBoard = await _repos.FetchKanbanBoardAsync(1);
@@ -49,11 +50,28 @@ namespace KanbanBoardMVCApp.Controllers
             return View(viewModel);
         }
 
-
         public async Task<IActionResult> MoveItem(int itemId, int columnId)
         {
             await _repos.MoveItemAsync(itemId, (Column)columnId);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult AddItem()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddItem(KanbanItem item)
+        {
+            if (ModelState.IsValid)
+            {
+                _repos.AddItem(item);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(AddItem));
         }
     }
 }

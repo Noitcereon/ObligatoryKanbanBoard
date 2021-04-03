@@ -77,7 +77,7 @@ namespace KanbanBoardMVCApp.Areas.Identity.Pages.Account
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                // Add role here?
+                // Add default role here?
 
                 if (result.Succeeded)
                 {

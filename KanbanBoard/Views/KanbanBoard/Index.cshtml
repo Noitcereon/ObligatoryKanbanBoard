@@ -5,7 +5,9 @@
 }
 
 <h1>@Model.KanbanBoard</h1>
-
+<div>
+    <a asp-action="AddItem"><i class="btn btn-primary fa fa-plus"></i></a>
+</div>
 <section id="kanbanBoard" class="row">
     <section class="col-md-3">
         <h2>@Model.KanbanColumns.Find(x => x.Headline == "To Do")</h2>
@@ -21,6 +23,7 @@
                     </div>
                 </div>
             </div>
+       
         }
     </section>
     <section class="col-md-3">
