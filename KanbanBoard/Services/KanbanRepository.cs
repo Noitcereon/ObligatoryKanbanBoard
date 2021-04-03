@@ -36,7 +36,7 @@ namespace KanbanBoardMVCApp.Services
         /// <returns></returns>
         public async Task<List<KanbanItem>> FetchItemsByColumnAsync(Column column)
         {
-            return await _context.KanbanItems.Where(t => t.ColumnId == (int)column).ToListAsync();
+            return await _context.KanbanItems.Where(t => t.KanbanColumnId == (int)column).ToListAsync();
         }
 
         public async Task<List<KanbanColumn>> FetchColumnsAsync(int kanbanBoardId)
@@ -54,7 +54,7 @@ namespace KanbanBoardMVCApp.Services
         {
             var itemToUpdate = await _context.KanbanItems.FirstOrDefaultAsync(ki => ki.Id == itemId);
             if (itemToUpdate != null)
-                itemToUpdate.ColumnId = _context.KanbanColumns.Find((int) newColumn).Id;
+                itemToUpdate.KanbanColumnId = _context.KanbanColumns.Find((int) newColumn).Id;
             await _context.SaveChangesAsync();
         }
 
