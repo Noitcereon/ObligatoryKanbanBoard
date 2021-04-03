@@ -8,6 +8,7 @@ namespace KanbanBoardMVCApp.Models
         public int Id { get; set; }
         
         [Required]
+        [MaxLength(50)]
         public string Headline { get; set; }
 
         [Required]

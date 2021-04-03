@@ -9,6 +9,7 @@ namespace KanbanBoardMVCApp.Models
 
         [Required]
         [MinLength(2)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
         [Required]

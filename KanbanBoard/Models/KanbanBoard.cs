@@ -8,6 +8,7 @@ namespace KanbanBoardMVCApp.Models
     {
         public int Id { get; set; }
 
+        [MaxLength(50)]
         public string ProjectName { get; set; }
 
         public override string ToString()
