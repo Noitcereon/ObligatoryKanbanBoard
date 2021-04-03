@@ -67,6 +67,7 @@ namespace KanbanBoardMVCApp.Controllers
         {
             // add Column to the KanbanItem here.
             item.Column = await _repos.FetchColumnByIdAsync(item.Column.Id);
+            item.Column.KanbanBoard = await _repos.FetchKanbanBoardAsync(1);
 
             if (ModelState.IsValid)
             {

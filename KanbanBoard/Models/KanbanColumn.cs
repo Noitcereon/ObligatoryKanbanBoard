@@ -13,17 +13,17 @@ namespace KanbanBoardMVCApp.Models
 
         [Required]
         [ForeignKey("fk_kanban_board_id")]
-        public KanbanBoard KanbanBoard { get; set; }
+        public int KanbanBoardId { get; set; }
 
         public KanbanColumn()
         {
             
         }
 
-        public KanbanColumn(string headline, KanbanBoard kanbanBoard)
+        public KanbanColumn(string headline, int kanbanBoardId)
         {
             Headline = headline;
-            KanbanBoard = kanbanBoard;
+            KanbanBoardId = kanbanBoardId;
         }
 
         public override string ToString()
