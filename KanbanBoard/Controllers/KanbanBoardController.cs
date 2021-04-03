@@ -63,8 +63,11 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddItem(KanbanItem item)
+        public async Task<IActionResult> AddItem(KanbanItem item)
         {
+            // add Column to the KanbanItem here.
+            item.Column = await _repos.FetchColumnByIdAsync(item.Column.Id);
+
             if (ModelState.IsValid)
             {
                 _repos.AddItem(item);

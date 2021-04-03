@@ -57,5 +57,10 @@ namespace KanbanBoardMVCApp.Services
                 itemToUpdate.Column = await _context.KanbanColumns.FirstAsync(kc => kc.Id == (int) newColumn);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<KanbanColumn> FetchColumnByIdAsync(int columnId)
+        {
+            return await _context.KanbanColumns.FindAsync(columnId);
+        }
     }
 }

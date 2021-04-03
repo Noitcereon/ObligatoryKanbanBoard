@@ -11,5 +11,6 @@ namespace KanbanBoardMVCApp.Services
         Task<List<KanbanColumn>> FetchColumnsAsync(int kanbanBoardId);
         int AddItem(KanbanItem item);
         Task MoveItemAsync(int itemId, KanbanRepository.Column newColumn);
+        Task<KanbanColumn> FetchColumnByIdAsync(int columnId);
     }
 }

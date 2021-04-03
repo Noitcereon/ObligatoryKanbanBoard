@@ -1,23 +1,31 @@
-﻿@model KanbanBoardMVCApp.Models.KanbanItem
-
+﻿@using System.Collections.Specialized
+@model KanbanBoardMVCApp.Models.KanbanItem
 @{
     ViewData["Title"] = "Kanban Board - Add Item";
-    
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<form method="post" asp-action="AddItem">
+<form method="post" asp-action="AddItem" asp-route-item="@Model">
     <div class="form-group">
-        <input asp-for="@Model.Title" class="form-control"/>
-        
+        <label asp-for="@Model.Title"></label>
+        <input asp-for="@Model.Title" class="form-control" />
+        <div asp-validation-for="Title"></div>
     </div>
     <div class="form-group">
-        <input asp-for="@Model.Column" class="form-control"/>
+        <label asp-for="@Model.Column"></label>
+        <select asp-for="@Model.Column.Id" class="form-control">
+            <option value="1">To Do</option>
+            <option value="2">Doing</option>
+            <option value="3">Testing</option>
+            <option value="4">Done</option>
+        </select>
+        <div asp-validation-for="Id"></div>
     </div>
+    <div asp-validation-summary="All"></div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
-@{
-    
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
 }

@@ -6,7 +6,6 @@ namespace KanbanBoardMVCApp.Models
 {
     public class KanbanBoard
     {
-        [Required]
         public int Id { get; set; }
 
         public string ProjectName { get; set; }
