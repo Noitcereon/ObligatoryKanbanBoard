@@ -11,9 +11,8 @@ namespace KanbanBoardMVCApp.Models
         [MaxLength(50)]
         public string Headline { get; set; }
 
-        [Required]
-        [ForeignKey("fk_kanban_board_id")]
         public int KanbanBoardId { get; set; }
+        public KanbanBoard KanbanBoard { get; set; }
 
         public KanbanColumn()
         {

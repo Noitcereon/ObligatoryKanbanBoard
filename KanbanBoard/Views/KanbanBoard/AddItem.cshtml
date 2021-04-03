@@ -13,14 +13,14 @@
         <div asp-validation-for="Title"></div>
     </div>
     <div class="form-group">
-        <label asp-for="@Model.Column"></label>
-        <select asp-for="@Model.Column.Id" class="form-control">
+        <label asp-for="@Model.ColumnId">Column</label>
+        <select asp-for="@Model.ColumnId" class="form-control">
             <option value="1">To Do</option>
             <option value="2">Doing</option>
             <option value="3">Testing</option>
             <option value="4">Done</option>
         </select>
-        <div asp-validation-for="Id"></div>
+        <div asp-validation-for="ColumnId"></div>
     </div>
     <div asp-validation-summary="All"></div>
     <button type="submit" class="btn btn-primary">Submit</button>

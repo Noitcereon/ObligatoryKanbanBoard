@@ -12,9 +12,8 @@ namespace KanbanBoardMVCApp.Models
         [MaxLength(50)]
         public string Title { get; set; }
 
-        [Required]
-        [ForeignKey("fk_column_id")]
-        public int ColumnId { get; set; }
+        public int KanbanColumnId { get; set; }
+        public KanbanColumn KanbanColumn { get; set; }
 
         public override string ToString()
         {
