@@ -63,7 +63,7 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddItem(KanbanItem item)
+        public IActionResult AddItem(KanbanItem item)
         {
             if (ModelState.IsValid)
             {
@@ -72,6 +72,13 @@ namespace KanbanBoardMVCApp.Controllers
             }
 
             return RedirectToAction(nameof(AddItem));
+        }
+
+        public IActionResult DeleteItem(int itemId)
+        {
+            // delete here.
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

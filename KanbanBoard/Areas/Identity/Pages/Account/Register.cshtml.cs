@@ -85,6 +85,9 @@ namespace KanbanBoardMVCApp.Areas.Identity.Pages.Account
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                    //if(Url.IsLocalUrl(returnUrl)){} make this check to protect against open-redirect attacks.
+
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
