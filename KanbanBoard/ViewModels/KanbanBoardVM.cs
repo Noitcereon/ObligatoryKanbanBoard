@@ -14,6 +14,10 @@ namespace KanbanBoardMVCApp.ViewModels
         public List<KanbanItem> DoingItems { get; set; }
         public List<KanbanItem> TestingItems { get; set; }
         public List<KanbanItem> DoneItems { get; set; }
+
+        public bool HasTeamAccess { get; set; } 
+        public bool HasAdminAccess { get; set; }
+        public bool HasContributorAccess { get; set; }
      
     }
 }

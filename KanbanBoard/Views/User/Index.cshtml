@@ -1,0 +1,35 @@
+﻿@model KanbanBoardMVCApp.ViewModels.UserIndexVM
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h2>Users</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>User name</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>
+                    @foreach (string role in Model.UserRoles(user).Result)
+                    {
+                        <span>@role </span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="AssignRole">Assign role</a> | 
+                    <a asp-action="RemoveRole">Remove role</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -16,7 +16,7 @@ using static KanbanBoardMVCApp.Services.KanbanRepository;
 
 namespace KanbanBoardMVCApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Team")]
     public class KanbanBoardController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -74,6 +74,7 @@ namespace KanbanBoardMVCApp.Controllers
             return RedirectToAction(nameof(AddItem));
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteItem(int itemId)
         {
             // delete here.
