@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using KanbanBoardMVCApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -32,23 +34,33 @@ namespace KanbanBoardMVCApp.Controllers
             return View(vm);
         }
 
-        [HttpPost]
-        public IActionResult AssignRole(IdentityUser user, string role)
+        [HttpGet]
+        public IActionResult AssignRole(string userId)
         {
+            IdentityUser user = _userManager.Users.First(x => x.Id == userId);
+            UserAssignRoleVM vm = new UserAssignRoleVM(user, _roleManager.Roles);
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult AssignRole(UserAssignRoleVM model)
+        {
+            // BUG: the user is always null when submitting. 
             if (ModelState.IsValid)
             {
-                _userManager.AddToRoleAsync(user, role);
+                _userManager.AddToRoleAsync(model.User, model.SelectedRole);
             }
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpDelete]
-        public IActionResult RemoveRole(IdentityUser user, string role)
+        public async Task<IActionResult> RemoveRoles(IdentityUser user)
         {
             if (ModelState.IsValid)
             {
-                _userManager.RemoveFromRoleAsync(user, role);
+                var roles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, roles);
             }
             return RedirectToAction(nameof(Index));
         }

@@ -26,8 +26,8 @@
                     }
                 </td>
                 <td>
-                    <a asp-action="AssignRole">Assign role</a> | 
-                    <a asp-action="RemoveRole">Remove role</a>
+                    <a asp-action="AssignRole" asp-route-userId="@user.Id">Assign role</a> |
+                    <a asp-action="RemoveRoles" asp-route-user="@user">Remove role</a>
                 </td>
             </tr>
         }
