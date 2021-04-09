@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KanbanBoardMVCApp.Services
 {
-    
+
     public class KanbanRepository : IKanbanRepository
     {
         public enum Column
@@ -55,8 +55,8 @@ namespace KanbanBoardMVCApp.Services
         {
             var itemToUpdate = await _context.KanbanItems.FirstOrDefaultAsync(ki => ki.Id == itemId);
             if (itemToUpdate != null)
-                itemToUpdate.KanbanColumnId = _context.KanbanColumns.Find((int) newColumn).Id;
-            await _context.SaveChangesAsync();
+                itemToUpdate.KanbanColumnId = _context.KanbanColumns.Find((int)newColumn).Id;
+            _context.SaveChanges();
         }
 
         public async Task<KanbanColumn> FetchColumnByIdAsync(int columnId)
@@ -64,15 +64,24 @@ namespace KanbanBoardMVCApp.Services
             return await _context.KanbanColumns.FindAsync(columnId);
         }
 
-        public async Task<bool> DeleteItem(int itemId)
+        public bool DeleteItem(int itemId)
         {
-            KanbanItem itemToDelete = await _context.KanbanItems.FirstAsync(x => x.Id == itemId);
-            if (itemToDelete is null)
+            try
             {
-                return false;
+                KanbanItem itemToDelete = _context.KanbanItems.First(x => x.Id == itemId);
+                if (itemToDelete is null)
+                {
+                    return false;
+                }
+
+                _context.KanbanItems.Remove(itemToDelete);
+                _context.SaveChanges();
             }
-            _context.KanbanItems.Remove(itemToDelete);
-            await _context.SaveChangesAsync();
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             return true;
         }
     }
