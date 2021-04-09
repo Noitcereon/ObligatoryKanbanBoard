@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KanbanBoardMVCApp.Data;
 using KanbanBoardMVCApp.Models;
+using KanbanBoardMVCApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace KanbanBoardMVCApp.Services
@@ -61,6 +62,18 @@ namespace KanbanBoardMVCApp.Services
         public async Task<KanbanColumn> FetchColumnByIdAsync(int columnId)
         {
             return await _context.KanbanColumns.FindAsync(columnId);
+        }
+
+        public async Task<bool> DeleteItem(int itemId)
+        {
+            KanbanItem itemToDelete = _context.KanbanItems.First(x => x.Id == itemId);
+            if (itemToDelete is null)
+            {
+                return false;
+            }
+            _context.KanbanItems.Remove(itemToDelete);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

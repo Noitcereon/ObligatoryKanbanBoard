@@ -16,14 +16,14 @@
             <div class="card">
                 <div class="card-body">
                     <h5>@item</h5>
-                    <div class="card-actions" style="float:right">
+                    <div class="card-actions">
+                        <a class="btn btn-danger" asp-action="DeleteItem" asp-route-itemId="@item.Id">X</a>
                         <a class="btn btn-primary" asp-action="MoveItem" asp-route-itemId="@item.Id" asp-route-columnId="2">
                             <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             </div>
-       
         }
     </section>
     <section class="col-md-3">
@@ -37,6 +37,7 @@
                         <a class="btn btn-primary" asp-action="MoveItem" asp-route-itemId="@item.Id" asp-route-columnId="1">
                             <i class="fa fa-arrow-left"></i>
                         </a>
+                        <a class="btn btn-danger" asp-action="DeleteItem" asp-route-itemId="@item.Id">X</a>
                         <a class="btn btn-primary" asp-action="MoveItem" asp-route-itemId="@item.Id" asp-route-columnId="3">
                             <i class="fa fa-arrow-right"></i>
                         </a>
@@ -56,6 +57,7 @@
                         <a class="btn btn-primary" asp-action="MoveItem" asp-route-itemId="@item.Id" asp-route-columnId="2">
                             <i class="fa fa-arrow-left"></i>
                         </a>
+                        <a class="btn btn-danger" asp-action="DeleteItem" asp-route-itemId="@item.Id">X</a>
                         <a class="btn btn-primary" asp-action="MoveItem" asp-route-itemId="@item.Id" asp-route-columnId="4">
                             <i class="fa fa-arrow-right"></i>
                         </a>
@@ -75,13 +77,13 @@
                         <a class="btn btn-primary" asp-action="MoveItem" asp-route-itemId="@item.Id" asp-route-columnId="3">
                             <i class="fa fa-arrow-left"></i>
                         </a>
+                        <a class="btn btn-danger" asp-action="DeleteItem" asp-route-itemId="@item.Id">X</a>
                     </div>
                 </div>
             </div>
         }
     </section>
 </section>
-
 
 @section Styles {
     <style>

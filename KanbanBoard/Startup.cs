@@ -1,6 +1,7 @@
 using System;
 using KanbanBoardMVCApp.Data;
 using KanbanBoardMVCApp.Services;
+using KanbanBoardMVCApp.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

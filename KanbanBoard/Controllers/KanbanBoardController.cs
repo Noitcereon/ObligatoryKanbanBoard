@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using KanbanBoardMVCApp.Data;
 using KanbanBoardMVCApp.Models;
 using KanbanBoardMVCApp.Services;
+using KanbanBoardMVCApp.Services.Interfaces;
 using KanbanBoardMVCApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.SqlClient.DataClassification;
@@ -77,7 +78,10 @@ namespace KanbanBoardMVCApp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteItem(int itemId)
         {
-            // delete here.
+            if (ModelState.IsValid)
+            {
+                _repos.DeleteItem();
+            }
 
             return RedirectToAction(nameof(Index));
         }
