@@ -66,7 +66,7 @@ namespace KanbanBoardMVCApp.Services
 
         public async Task<bool> DeleteItem(int itemId)
         {
-            KanbanItem itemToDelete = _context.KanbanItems.First(x => x.Id == itemId);
+            KanbanItem itemToDelete = await _context.KanbanItems.FirstAsync(x => x.Id == itemId);
             if (itemToDelete is null)
             {
                 return false;

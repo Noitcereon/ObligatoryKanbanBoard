@@ -80,7 +80,7 @@ namespace KanbanBoardMVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _repos.DeleteItem();
+                _repos.DeleteItem(itemId);
             }
 
             return RedirectToAction(nameof(Index));

@@ -18,6 +18,5 @@ namespace KanbanBoardMVCApp.ViewModels
         public bool HasTeamAccess { get; set; } 
         public bool HasAdminAccess { get; set; }
         public bool HasContributorAccess { get; set; }
-     
     }
 }
