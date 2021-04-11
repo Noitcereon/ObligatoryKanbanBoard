@@ -23,11 +23,13 @@ namespace KanbanBoardMVCApp.Data
                 roleManager.CreateAsync(new IdentityRole("Observer")).Wait(TimeSpan.FromSeconds(5));
             }
 
+           
+
             if (userManager.GetUsersInRoleAsync("Admin").Result.Count <= 0)
             {
                 string adminUsername = "admin@admin.com";
-                var admin = userManager.Users.First(x => x.UserName == adminUsername);
-                if (admin == null)
+                var admin = userManager.Users.FirstOrDefault(x => x.UserName == adminUsername);
+                if (admin == default)
                 {
                     IdentityUser newAdmin = new IdentityUser(adminUsername);
                     newAdmin.Email = adminUsername;
