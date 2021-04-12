@@ -32,9 +32,7 @@ namespace KanbanBoardMVCApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<IdentityRole> roles = await _roleManager.Roles.ToListAsync();
-
-            UserIndexVM vm = new UserIndexVM(_userManager, roles);
+            UserIndexVM vm = new UserIndexVM(_userManager);
             return View(vm);
         }
 
@@ -51,29 +49,47 @@ namespace KanbanBoardMVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool success;
                 if (model.User == null)
                 {
                     IdentityUser user = await _userManager.FindByIdAsync(model.UserId);
-                    await ReplaceRole(user, model.SelectedRole);
+                    success = await ReplaceRole(user, model.SelectedRole);
                 }
                 else
                 {
-                    await ReplaceRole(model.User, model.SelectedRole);
+                    success = await ReplaceRole(model.User, model.SelectedRole);
+                }
+
+                if (success == false)
+                {
+                    ViewBag.ErrorMessage = "There must always be at least one admin.";
+                    // TODO: replace ViewBag.ErrorMessage with UserIndexVM errormessages.
+
+                    UserIndexVM vm = new UserIndexVM(_userManager);
+                    return View(nameof(Index), vm);
                 }
             }
 
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task ReplaceRole(IdentityUser user, string selectedRole)
+        private async Task<bool> ReplaceRole(IdentityUser user, string selectedRole)
         {
             IList<string> userRoles = await _userManager.GetRolesAsync(user);
             if (userRoles.Any())
             {
-                 await _userManager.RemoveFromRolesAsync(user, userRoles);
+                bool isAdmin = userRoles.Contains("Admin");
+                if (isAdmin && _roleManager.Roles.Count(role => role.Name == "Admin") <= 1)
+                {
+                    _logger.LogWarning("Someone attemped to replace the role on the last admin.");
+                    return false;
+                }
+
+                await _userManager.RemoveFromRolesAsync(user, userRoles);
             }
             await _userManager.AddToRoleAsync(user, selectedRole);
             _logger.LogInformation($"{user.UserName} was assigned the {selectedRole} role.");
+            return true;
         }
 
         // Delete request (adding HttpDelete gives 405 error)
@@ -86,8 +102,13 @@ namespace KanbanBoardMVCApp.Controllers
                 bool isAdmin = roles.Contains("Admin");
                 if (isAdmin && _roleManager.Roles.Count(role => role.Name == "Admin") <= 1)
                 {
-                    _logger.LogWarning("Someone attemped to delete the last admin.");
-                    return RedirectToAction(nameof(Index));
+                    _logger.LogWarning("Someone attemped to remove all roles from the last admin.");
+
+                    // TODO: replace ViewBag.ErrorMessage with UserIndexVM errormessages.
+                    ViewBag.ErrorMessage = "There must always be at least one admin.";
+
+                    UserIndexVM vm = new UserIndexVM(_userManager);
+                    return View(nameof(Index), vm);
                 }
                 await _userManager.RemoveFromRolesAsync(user, roles);
                 _logger.LogInformation($"{user.UserName} no longer has any roles.");

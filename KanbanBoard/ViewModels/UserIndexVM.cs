@@ -11,19 +11,16 @@ namespace KanbanBoardMVCApp.ViewModels
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        public UserIndexVM(UserManager<IdentityUser> userManager, IEnumerable<IdentityRole> roles)
+        public UserIndexVM(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
             Users = _userManager.Users.ToList();
-            Roles = new List<IdentityRole>(roles);
         }
 
         public List<IdentityUser> Users { get; }
-        public List<IdentityRole> Roles { get; set; } // neccessary?
 
         public async Task<IList<string>> UserRoles(IdentityUser user)
         {
-
             IList<string> userRoles = await _userManager.GetRolesAsync(user);
 
             return userRoles;
