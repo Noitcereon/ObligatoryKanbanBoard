@@ -6,6 +6,7 @@ namespace KanbanBoardMVCApp.Models
 {
     public class KanbanBoard
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [MaxLength(50)]

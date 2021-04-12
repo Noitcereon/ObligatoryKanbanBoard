@@ -26,19 +26,27 @@ namespace KanbanBoardMVCApp.Data
 
             if (!context.KanbanBoards.Any())
             {
-                var kanbanBoard = new KanbanBoard();
-                kanbanBoard.Id = 1; // is probably overriden, when inserted into the database. (db is identity)
-                kanbanBoard.ProjectName = "Kanban Board";
-                context.KanbanBoards.Add(kanbanBoard);
-
-                var kanbanColumn = new KanbanColumn("To Do", kanbanBoard.Id);
-                var kanbanColumn2 = new KanbanColumn("Doing", kanbanBoard.Id);
-                var kanbanColumn3 = new KanbanColumn("Testing", kanbanBoard.Id);
-                var kanbanColumn4 = new KanbanColumn("Done", kanbanBoard.Id);
-                List<KanbanColumn> columns = new List<KanbanColumn>{kanbanColumn, kanbanColumn2, kanbanColumn3, kanbanColumn4};
-                foreach (var column in columns)
+                try
                 {
-                    context.KanbanColumns.Add(column);
+                    var kanbanBoard = new KanbanBoard();
+                    kanbanBoard.Id = 1;
+                    kanbanBoard.ProjectName = "Kanban Board";
+                    context.KanbanBoards.Add(kanbanBoard);
+
+                    var kanbanColumn = new KanbanColumn("To Do", kanbanBoard.Id);
+                    var kanbanColumn2 = new KanbanColumn("Doing", kanbanBoard.Id);
+                    var kanbanColumn3 = new KanbanColumn("Testing", kanbanBoard.Id);
+                    var kanbanColumn4 = new KanbanColumn("Done", kanbanBoard.Id);
+                    List<KanbanColumn> columns = new List<KanbanColumn>
+                        {kanbanColumn, kanbanColumn2, kanbanColumn3, kanbanColumn4};
+                    foreach (var column in columns)
+                    {
+                        context.KanbanColumns.Add(column);
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Kanban board insertion failed.");
                 }
             }
 
