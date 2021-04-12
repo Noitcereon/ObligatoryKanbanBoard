@@ -73,7 +73,7 @@ namespace KanbanBoardMVCApp
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -88,7 +88,7 @@ namespace KanbanBoardMVCApp
             }
 
             // Init DB with default roles and an admin if there is none.
-            SeedData.Initialise(roleManager, userManager);
+            SeedData.Initialise(roleManager, userManager, context);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
