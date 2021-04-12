@@ -23,7 +23,7 @@ namespace KanbanBoardMVCApp.Data
                 roleManager.CreateAsync(new IdentityRole("Observer")).Wait(TimeSpan.FromSeconds(5));
             }
 
-           
+            // TODO: Add default kanbanboard (with columns) to db.
 
             if (userManager.GetUsersInRoleAsync("Admin").Result.Count <= 0)
             {
