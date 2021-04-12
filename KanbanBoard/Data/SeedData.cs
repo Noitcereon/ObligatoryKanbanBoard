@@ -33,20 +33,23 @@ namespace KanbanBoardMVCApp.Data
                     kanbanBoard.ProjectName = "Kanban Board";
                     context.KanbanBoards.Add(kanbanBoard);
 
-                    var kanbanColumn = new KanbanColumn("To Do", kanbanBoard.Id);
-                    var kanbanColumn2 = new KanbanColumn("Doing", kanbanBoard.Id);
-                    var kanbanColumn3 = new KanbanColumn("Testing", kanbanBoard.Id);
-                    var kanbanColumn4 = new KanbanColumn("Done", kanbanBoard.Id);
+                    var kanbanColumn = new KanbanColumn(1, "To Do", kanbanBoard.Id);
+                    var kanbanColumn2 = new KanbanColumn(2, "Doing", kanbanBoard.Id);
+                    var kanbanColumn3 = new KanbanColumn(3, "Testing", kanbanBoard.Id);
+                    var kanbanColumn4 = new KanbanColumn(4, "Done", kanbanBoard.Id);
+
                     List<KanbanColumn> columns = new List<KanbanColumn>
                         {kanbanColumn, kanbanColumn2, kanbanColumn3, kanbanColumn4};
                     foreach (var column in columns)
                     {
                         context.KanbanColumns.Add(column);
                     }
+
+                    context.SaveChanges();
                 }
                 catch
                 {
-                    Console.WriteLine("Kanban board insertion failed.");
+                    Console.WriteLine("Kanban board seeding failed.");
                 }
             }
 

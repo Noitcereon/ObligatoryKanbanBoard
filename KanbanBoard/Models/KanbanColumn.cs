@@ -19,8 +19,9 @@ namespace KanbanBoardMVCApp.Models
             
         }
 
-        public KanbanColumn(string headline, int kanbanBoardId)
+        public KanbanColumn(int id, string headline, int kanbanBoardId)
         {
+            Id = id;
             Headline = headline;
             KanbanBoardId = kanbanBoardId;
         }
