@@ -8,7 +8,7 @@
 <h2>Assigning roles to @Model.User.UserName</h2>
 <form method="post" asp-action="AssignRole">
     <div class="form-group">
-        @*<input asp-for="User" value="@Model.User" hidden/>*@ 
+        <input asp-for="UserId" value="@Model.UserId" hidden/> 
         <label>Role to Assign</label>
         <select class="form-control" asp-items="@Model.Roles" asp-for="SelectedRole">
         </select>

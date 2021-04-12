@@ -10,6 +10,7 @@ using KanbanBoardMVCApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace KanbanBoardMVCApp.Controllers
 {
@@ -18,11 +19,14 @@ namespace KanbanBoardMVCApp.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        public UserController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager,
+        ILogger<UserController> logger)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -43,24 +47,35 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AssignRole(UserAssignRoleVM model)
+        public async Task<IActionResult> AssignRole(UserAssignRoleVM model)
         {
-            // BUG: the user is always null when submitting. 
             if (ModelState.IsValid)
             {
-                _userManager.AddToRoleAsync(model.User, model.SelectedRole);
+                if (model.User == default || model.User == null)
+                {
+                    IdentityUser user = await _userManager.FindByIdAsync(model.UserId);
+                    await _userManager.AddToRoleAsync(user, model.SelectedRole);
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(model.User, model.SelectedRole);
+                }
+
+                _logger.LogInformation("User was assigned a role");
             }
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpDelete]
-        public async Task<IActionResult> RemoveRoles(IdentityUser user)
+        public async Task<IActionResult> RemoveRoles(string userId)
         {
             if (ModelState.IsValid)
             {
+                IdentityUser user = await _userManager.FindByIdAsync(userId);
                 var roles = await _userManager.GetRolesAsync(user);
                 await _userManager.RemoveFromRolesAsync(user, roles);
+                _logger.LogInformation($"{user.UserName} no longer has any roles.");
             }
             return RedirectToAction(nameof(Index));
         }

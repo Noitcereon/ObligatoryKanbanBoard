@@ -15,6 +15,7 @@ namespace KanbanBoardMVCApp.ViewModels
         public UserAssignRoleVM(IdentityUser user, IEnumerable<IdentityRole> roles)
         {
             User = user;
+            UserId = user.Id;
             Roles = new List<SelectListItem>();
             foreach (var role in roles)
             {
@@ -23,8 +24,11 @@ namespace KanbanBoardMVCApp.ViewModels
 
         }
 
-        [Required]
         public IdentityUser User { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
+
         public List<SelectListItem> Roles { get; set; }
 
         [Required]
