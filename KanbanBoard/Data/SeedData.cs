@@ -12,7 +12,7 @@ namespace KanbanBoardMVCApp.Data
     public class SeedData
     {
         /// <summary>
-        /// Fills the database with the default roles and an admin user (if no roles and if no admin exists)
+        /// Fills the database with the default roles and an admin user (if no roles and if no admin exists), in addition to THE kanban board.
         /// </summary>
         public static void Initialise(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
@@ -27,7 +27,7 @@ namespace KanbanBoardMVCApp.Data
             if (!context.KanbanBoards.Any())
             {
                 var kanbanBoard = new KanbanBoard();
-                kanbanBoard.Id = 1;
+                kanbanBoard.Id = 1; // is probably overriden, when inserted into the database. (db is identity)
                 kanbanBoard.ProjectName = "Kanban Board";
                 context.KanbanBoards.Add(kanbanBoard);
 

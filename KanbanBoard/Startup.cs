@@ -47,7 +47,7 @@ namespace KanbanBoardMVCApp
             #region Cookie Config
             services.ConfigureApplicationCookie(config =>
             {
-                config.Cookie.HttpOnly = true;
+                //config.Cookie.HttpOnly = true;
                 config.ExpireTimeSpan = TimeSpan.FromHours(1);
             });
             services.AddCookiePolicy(config => config.MinimumSameSitePolicy = SameSiteMode.Lax);

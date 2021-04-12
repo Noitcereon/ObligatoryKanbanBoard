@@ -17,7 +17,7 @@ using static KanbanBoardMVCApp.Services.KanbanRepository;
 
 namespace KanbanBoardMVCApp.Controllers
 {
-    [Authorize(Roles = "Admin, Team")]
+    [Authorize(Roles = "Admin, Team, Contributor, Observer")]
     public class KanbanBoardController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -30,7 +30,6 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         // GET: KanbanBoard
-        [AllowAnonymous] // Will become Authorize with "observer" role later.
         public async Task<IActionResult> Index()
         {
             KanbanBoard kanbanBoard = await _repos.FetchKanbanBoardAsync(1);
@@ -51,6 +50,7 @@ namespace KanbanBoardMVCApp.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin, Team")]
         public async Task<IActionResult> MoveItem(int itemId, int columnId)
         {
             await _repos.MoveItemAsync(itemId, (Column)columnId);
@@ -58,12 +58,14 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, Team, Contributor")]
         public IActionResult AddItem()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Team, Contributor")]
         public IActionResult AddItem(KanbanItem item)
         {
             if (ModelState.IsValid)
@@ -75,7 +77,8 @@ namespace KanbanBoardMVCApp.Controllers
             return RedirectToAction(nameof(AddItem));
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Team")]
+        // Delete request (adding HttpDelete gives 405 error)
         public IActionResult DeleteItem(int itemId)
         {
             if (ModelState.IsValid)

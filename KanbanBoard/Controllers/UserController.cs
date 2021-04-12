@@ -51,29 +51,44 @@ namespace KanbanBoardMVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.User == default || model.User == null)
+                if (model.User == null)
                 {
                     IdentityUser user = await _userManager.FindByIdAsync(model.UserId);
-                    await _userManager.AddToRoleAsync(user, model.SelectedRole);
+                    await ReplaceRole(user, model.SelectedRole);
                 }
                 else
                 {
-                    await _userManager.AddToRoleAsync(model.User, model.SelectedRole);
+                    await ReplaceRole(model.User, model.SelectedRole);
                 }
-
-                _logger.LogInformation("User was assigned a role");
             }
 
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpDelete]
+        private async Task ReplaceRole(IdentityUser user, string selectedRole)
+        {
+            IList<string> userRoles = await _userManager.GetRolesAsync(user);
+            if (userRoles.Any())
+            {
+                 await _userManager.RemoveFromRolesAsync(user, userRoles);
+            }
+            await _userManager.AddToRoleAsync(user, selectedRole);
+            _logger.LogInformation($"{user.UserName} was assigned the {selectedRole} role.");
+        }
+
+        // Delete request (adding HttpDelete gives 405 error)
         public async Task<IActionResult> RemoveRoles(string userId)
         {
             if (ModelState.IsValid)
             {
                 IdentityUser user = await _userManager.FindByIdAsync(userId);
                 var roles = await _userManager.GetRolesAsync(user);
+                bool isAdmin = roles.Contains("Admin");
+                if (isAdmin && _roleManager.Roles.Count(role => role.Name == "Admin") <= 1)
+                {
+                    _logger.LogWarning("Someone attemped to delete the last admin.");
+                    return RedirectToAction(nameof(Index));
+                }
                 await _userManager.RemoveFromRolesAsync(user, roles);
                 _logger.LogInformation($"{user.UserName} no longer has any roles.");
             }
