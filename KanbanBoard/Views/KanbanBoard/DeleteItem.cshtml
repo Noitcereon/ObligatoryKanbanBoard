@@ -1,0 +1,7 @@
+﻿@model KanbanBoardMVCApp.Models.KanbanItem
+<h1>
+    Are you sure you want to delete "@Model.Title"?
+</h1>
+
+<a asp-controller="KanbanItems" asp-action="Delete" class="btn btn-danger">Confirm</a>
+<a asp-action="Index" class="btn btn-primary">Cancel</a>

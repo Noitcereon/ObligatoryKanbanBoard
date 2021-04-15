@@ -11,6 +11,7 @@ namespace KanbanBoardMVCApp.Services.Interfaces
     {
         int AddItem(KanbanItem item);
         Task MoveItemAsync(int itemId, KanbanRepository.Column newColumn);
+        Task UpdateItem(KanbanItem item);
         bool DeleteItem(int itemId);
     }
 }

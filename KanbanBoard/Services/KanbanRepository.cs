@@ -6,6 +6,7 @@ using KanbanBoardMVCApp.Data;
 using KanbanBoardMVCApp.Models;
 using KanbanBoardMVCApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace KanbanBoardMVCApp.Services
 {
@@ -47,7 +48,7 @@ namespace KanbanBoardMVCApp.Services
 
         public int AddItem(KanbanItem item)
         {
-            _context.KanbanItems.Add(item);
+            _context.Add(item);
             return _context.SaveChanges();
         }
 
@@ -57,6 +58,13 @@ namespace KanbanBoardMVCApp.Services
             if (itemToUpdate != null)
                 itemToUpdate.KanbanColumnId = _context.KanbanColumns.Find((int)newColumn).Id;
             _context.SaveChanges();
+        }
+
+        public Task UpdateItem(KanbanItem item)
+        {
+            // TODO: confirm that this method works (beware async)
+            _context.Update(item);
+            return _context.SaveChangesAsync();
         }
 
         public async Task<KanbanColumn> FetchColumnByIdAsync(int columnId)

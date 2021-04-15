@@ -17,6 +17,7 @@ using static KanbanBoardMVCApp.Services.KanbanRepository;
 
 namespace KanbanBoardMVCApp.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     [Authorize(Roles = "Admin, Team, Contributor, Observer")]
     public class KanbanBoardController : Controller
     {
@@ -51,41 +52,20 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         [Authorize(Roles = "Admin, Team")]
+        public IActionResult DeleteItem(int itemId)
+        {
+            KanbanItem kanbanItem = _context.KanbanItems.Find(itemId);
+            if (kanbanItem == null)
+            {
+                return NotFound();
+            }
+            return View(kanbanItem);
+        }
+
+        [Authorize(Roles = "Admin, Team, Contributor")]
         public async Task<IActionResult> MoveItem(int itemId, int columnId)
         {
             await _repos.MoveItemAsync(itemId, (Column)columnId);
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, Team, Contributor")]
-        public IActionResult AddItem()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin, Team, Contributor")]
-        public IActionResult AddItem(KanbanItem item)
-        {
-            if (ModelState.IsValid)
-            {
-                _repos.AddItem(item);
-                return RedirectToAction(nameof(Index));
-            }
-
-            return RedirectToAction(nameof(AddItem));
-        }
-
-        [Authorize(Roles = "Admin, Team")]
-        // Delete request (adding HttpDelete gives 405 error)
-        public IActionResult DeleteItem(int itemId)
-        {
-            if (ModelState.IsValid)
-            {
-                _repos.DeleteItem(itemId);
-            }
-
             return RedirectToAction(nameof(Index));
         }
     }
