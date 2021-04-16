@@ -34,7 +34,7 @@ namespace KanbanBoardMVCApp.Services
             Email.DefaultSender = _sender;
         }
 
-        public async Task SendMail(string receiverEmail, string subject, string emailBody)
+        public async Task SendMailAsync(string receiverEmail, string subject, string emailBody)
         {
             var email = await Email
                 .From("tba@live.dk", "KanbanBoard Application")
@@ -49,7 +49,14 @@ namespace KanbanBoardMVCApp.Services
             else
             {
                 _logger.LogError("E-mail failed to send.");
-                Console.WriteLine("E-mail failed to send.");
+            }
+        }
+
+        public async Task SendMailToMultipleAsync(List<string> receiverEmails, string subject, string emailBody)
+        {
+            foreach (string email in receiverEmails)
+            {
+                await SendMailAsync(email, subject, emailBody);
             }
         }
     }

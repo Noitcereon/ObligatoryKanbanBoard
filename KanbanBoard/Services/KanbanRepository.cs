@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentEmail.Core;
 using KanbanBoardMVCApp.Data;
 using KanbanBoardMVCApp.Models;
 using KanbanBoardMVCApp.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
@@ -21,11 +23,16 @@ namespace KanbanBoardMVCApp.Services
 
         private readonly ApplicationDbContext _context;
         private readonly ILogger<KanbanRepository> _logger;
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public KanbanRepository(ApplicationDbContext context, ILogger<KanbanRepository> logger)
+        public KanbanRepository(ApplicationDbContext context, ILogger<KanbanRepository> logger,
+            IEmailSender emailSender, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _logger = logger;
+            _emailSender = emailSender;
+            _userManager = userManager; // used when fetching emails for email sending.
         }
 
         public async Task<KanbanBoard> FetchKanbanBoardAsync(int kanbanBoardId = 1)
@@ -68,13 +75,31 @@ namespace KanbanBoardMVCApp.Services
         {
             var itemToUpdate = await _context.KanbanItems.FirstOrDefaultAsync(ki => ki.Id == itemId);
             if (itemToUpdate != null)
+            {
                 itemToUpdate.KanbanColumnId = _context.KanbanColumns.Find((int)newColumn).Id;
-            _context.SaveChanges();
+                int affectedColumns = _context.SaveChanges();
+
+                if (newColumn == Column.Done && affectedColumns > 0)
+                {
+                    var recipents = await FetchTeamMembersAsync();
+
+                    List<string> emails = recipents.Select(user => user.Email).ToList();
+                    await Task.Run(() => SendEmails(emails, itemToUpdate));
+                }
+            }
+            // Needs Exception handling / handling of itemToUpdate == null.
         }
 
+        
         public async Task<int> UpdateItem(KanbanItem item)
         {
             _context.Update(item);
+            if (item.KanbanColumnId == (int) Column.Done)
+            {
+                var teamMembers = await FetchTeamMembersAsync();
+                List<string> emails = teamMembers.Select(user => user.Email).ToList();
+                SendEmails(emails, item);
+            }
             return await _context.SaveChangesAsync();
         }
 
@@ -103,6 +128,29 @@ namespace KanbanBoardMVCApp.Services
                 return false;
             }
             return true;
+        }
+
+        private async Task<List<IdentityUser>> FetchTeamMembersAsync()
+        {
+            IList<IdentityUser> adminUsers = await _userManager.GetUsersInRoleAsync("Admin");
+            IList<IdentityUser> teamUsers = await _userManager.GetUsersInRoleAsync("Team");
+            List<IdentityUser> recipents = new List<IdentityUser>();
+            recipents.AddRange(adminUsers);
+            recipents.AddRange(teamUsers);
+            return recipents;
+        }
+
+        /// <summary>
+        /// Sends emails to all users with the team or admin role.
+        /// Used when a KanbanItem is moved to the Done column.
+        /// </summary>
+        /// <param name="emails">A list of all the recipents' email addresses.</param>
+        /// <param name="item">The updated kanbanitem.</param>
+        private void SendEmails(List<string> emails, KanbanItem item)
+        {
+            Task.Run(() => _emailSender.SendMailToMultipleAsync(emails,
+                "KanbanItem moved to Done",
+                $"{item.Title} was moved to done column."));
         }
     }
 }

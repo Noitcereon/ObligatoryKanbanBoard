@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KanbanBoardMVCApp.Services.Interfaces
 {
     public interface IEmailSender
     {
-        Task SendMail(string receiverEmail, string subject, string emailBody);
+        Task SendMailAsync(string receiverEmail, string subject, string emailBody);
+        Task SendMailToMultipleAsync(List<string> receiverEmails, string subject, string emailBody);
     }
 }

@@ -21,11 +21,13 @@ namespace KanbanBoardMVCApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IKanbanRepository _repos;
+        private readonly IEmailSender _emailSender;
 
-        public KanbanItemsController(ApplicationDbContext context, IKanbanRepository repos)
+        public KanbanItemsController(ApplicationDbContext context, IKanbanRepository repos, IEmailSender emailSender)
         {
             _context = context;
             _repos = repos;
+            _emailSender = emailSender;
         }
 
         // GET: KanbanItems
