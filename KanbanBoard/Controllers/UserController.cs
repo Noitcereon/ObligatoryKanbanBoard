@@ -30,7 +30,7 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             UserIndexVM vm = new UserIndexVM(_userManager);
             return View(vm);

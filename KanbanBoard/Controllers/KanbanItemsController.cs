@@ -68,7 +68,7 @@ namespace KanbanBoardMVCApp.Controllers
         // POST: KanbanItems/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateItem(int itemId, [Bind("Id,Title,KanbanColumnId")] KanbanItem kanbanItem)
+        public async Task<IActionResult> UpdateItem(int itemId, [Bind("Title,KanbanColumnId")] KanbanItem kanbanItem)
         {
             if (itemId != kanbanItem.Id)
             {
@@ -98,12 +98,19 @@ namespace KanbanBoardMVCApp.Controllers
         }
 
         // POST: KanbanItems/Delete/5
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int itemId)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int itemId)
         {
-            _repos.DeleteItem(itemId);
-
-            return RedirectToAction(nameof(Index));
+            var success = _repos.DeleteItem(itemId);
+            if (success)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         private bool KanbanItemExists(int itemId)

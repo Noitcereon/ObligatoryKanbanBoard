@@ -60,11 +60,10 @@ namespace KanbanBoardMVCApp.Services
             _context.SaveChanges();
         }
 
-        public Task UpdateItem(KanbanItem item)
+        public async Task<int> UpdateItem(KanbanItem item)
         {
-            // TODO: confirm that this method works (beware async)
             _context.Update(item);
-            return _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<KanbanColumn> FetchColumnByIdAsync(int columnId)
@@ -76,19 +75,19 @@ namespace KanbanBoardMVCApp.Services
         {
             try
             {
-                KanbanItem itemToDelete = _context.KanbanItems.First(x => x.Id == itemId);
+                KanbanItem itemToDelete = _context.KanbanItems.Find(itemId);
                 if (itemToDelete is null)
                 {
                     return false;
                 }
-
                 _context.KanbanItems.Remove(itemToDelete);
                 _context.SaveChanges();
             }
 
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error in DeleteItem: " + ex.Message);
+                return false;
             }
             return true;
         }
