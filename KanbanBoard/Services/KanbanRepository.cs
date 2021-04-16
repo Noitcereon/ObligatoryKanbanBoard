@@ -20,9 +20,9 @@ namespace KanbanBoardMVCApp.Services
         }
 
         private readonly ApplicationDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<KanbanRepository> _logger;
 
-        public KanbanRepository(ApplicationDbContext context, ILogger logger)
+        public KanbanRepository(ApplicationDbContext context, ILogger<KanbanRepository> logger)
         {
             _context = context;
             _logger = logger;
