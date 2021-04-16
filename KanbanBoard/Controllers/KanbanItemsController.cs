@@ -10,6 +10,7 @@ using KanbanBoardMVCApp.Data;
 using KanbanBoardMVCApp.Models;
 using KanbanBoardMVCApp.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace KanbanBoardMVCApp.Controllers
 {
@@ -68,7 +69,6 @@ namespace KanbanBoardMVCApp.Controllers
 
         // POST: KanbanItems/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateItem(int itemId, [Bind("Id,Title,KanbanColumnId")] KanbanItem kanbanItem)
         {
             if (itemId != kanbanItem.Id)
@@ -100,7 +100,6 @@ namespace KanbanBoardMVCApp.Controllers
 
         // POST: KanbanItems/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Delete(int itemId)
         {
             var success = _repos.DeleteItem(itemId);

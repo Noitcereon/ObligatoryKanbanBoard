@@ -7,6 +7,7 @@ using KanbanBoardMVCApp.Models;
 using KanbanBoardMVCApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 
 namespace KanbanBoardMVCApp.Services
 {
@@ -19,15 +20,26 @@ namespace KanbanBoardMVCApp.Services
         }
 
         private readonly ApplicationDbContext _context;
+        private readonly ILogger _logger;
 
-        public KanbanRepository(ApplicationDbContext context)
+        public KanbanRepository(ApplicationDbContext context, ILogger logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<KanbanBoard> FetchKanbanBoardAsync(int kanbanBoardId = 1)
         {
-            return await _context.KanbanBoards.FirstAsync(x => x.Id == kanbanBoardId);
+            try
+            {
+                return await _context.KanbanBoards.FirstAsync(x => x.Id == kanbanBoardId);
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical($"{e.Source}: {e.Message}");
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         /// <summary>
@@ -84,9 +96,10 @@ namespace KanbanBoardMVCApp.Services
                 _context.SaveChanges();
             }
 
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine("Error in DeleteItem: " + ex.Message);
+                _logger.LogError($"{e.Source}: {e.Message}");
+                Console.WriteLine("Error in DeleteItem: " + e.Message);
                 return false;
             }
             return true;
