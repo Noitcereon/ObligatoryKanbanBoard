@@ -42,6 +42,7 @@ namespace KanbanBoardMVCApp
 
             #region Custom Services
             services.AddScoped<IKanbanRepository, KanbanRepository>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             #endregion
 
             #region Cookie Config
