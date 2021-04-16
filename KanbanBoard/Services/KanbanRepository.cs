@@ -134,10 +134,10 @@ namespace KanbanBoardMVCApp.Services
         {
             IList<IdentityUser> adminUsers = await _userManager.GetUsersInRoleAsync("Admin");
             IList<IdentityUser> teamUsers = await _userManager.GetUsersInRoleAsync("Team");
-            List<IdentityUser> recipents = new List<IdentityUser>();
-            recipents.AddRange(adminUsers);
-            recipents.AddRange(teamUsers);
-            return recipents;
+            List<IdentityUser> teamMembers = new List<IdentityUser>();
+            teamMembers.AddRange(adminUsers);
+            teamMembers.AddRange(teamUsers);
+            return teamMembers; 
         }
 
         /// <summary>
