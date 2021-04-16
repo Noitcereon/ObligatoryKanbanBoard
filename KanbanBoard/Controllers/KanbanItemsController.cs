@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +69,7 @@ namespace KanbanBoardMVCApp.Controllers
         // POST: KanbanItems/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateItem(int itemId, [Bind("Title,KanbanColumnId")] KanbanItem kanbanItem)
+        public async Task<IActionResult> UpdateItem(int itemId, [Bind("Id,Title,KanbanColumnId")] KanbanItem kanbanItem)
         {
             if (itemId != kanbanItem.Id)
             {
@@ -109,10 +110,11 @@ namespace KanbanBoardMVCApp.Controllers
             }
             else
             {
-                return View("Error");
+                return View("Error", new ErrorViewModel{ RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
-
+        
+      
         private bool KanbanItemExists(int itemId)
         {
             return _context.KanbanItems.Any(e => e.Id == itemId);

@@ -6,7 +6,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form method="post" asp-action="UpdateItem" asp-route-itemId="@Model.Id">
+<form asp-action="UpdateItem" asp-route-itemId="@Model.Id">
     <input asp-for="Id" type="hidden" />
     <div class="form-group">
         <label asp-for="@Model.Title"></label>
@@ -24,7 +24,7 @@
         <div asp-validation-for="KanbanColumnId"></div>
     </div>
     <div asp-validation-summary="All" class="text-danger"></div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Update</button>
 </form>
 
 <div>
