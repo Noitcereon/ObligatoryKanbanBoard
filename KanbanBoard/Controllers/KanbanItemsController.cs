@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using KanbanBoardMVCApp.Data;
 using KanbanBoardMVCApp.Models;
 using KanbanBoardMVCApp.Services.Interfaces;
+using KanbanBoardMVCApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 

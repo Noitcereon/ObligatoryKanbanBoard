@@ -1,4 +1,4 @@
-namespace KanbanBoardMVCApp.Models
+namespace KanbanBoardMVCApp.ViewModels
 {
     public class ErrorViewModel
     {

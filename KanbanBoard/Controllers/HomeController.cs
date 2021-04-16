@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using KanbanBoardMVCApp.Models;
+using KanbanBoardMVCApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
